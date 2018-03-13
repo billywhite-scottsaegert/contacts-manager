@@ -34,13 +34,10 @@ public class ContactsApplication {
             }
         } while(!userInput.equals("0"));
 
-
     }
 
+
     static Scanner scan = new Scanner(System.in);
-
-
-
 
 ///////////Display Menu
     public static String menu() {
@@ -100,8 +97,35 @@ public class ContactsApplication {
         String name = scan.nextLine();
         System.out.println("Please contacts phone number");
         String phone = scan.nextLine();
+        String phoneFormat = null;
+        boolean formatRun = true;
+        do {
+            int phoneChar = phone.length();
+            if (phoneChar == 10) {
+                phoneFormat = String.valueOf(phone).replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3");
+                formatRun = false;
+            } else if (phoneChar == 7) {
+                phoneFormat = String.valueOf(phone).replaceFirst("(\\d{3})(\\d+)", "$1-$2");
+                formatRun = false;
+            } else if (phoneChar == 11) {
+                phoneFormat = String.valueOf(phone).replaceFirst("(\\d{1})(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3-$4");
+                formatRun = false;
+            } else if (phone.contains("-")) {
+                phoneFormat = phone;
+                formatRun = false;
+            }  else {
+                formatRun = true;
+                System.out.println("Please enter in a valid phone number");
+                phone = scan.nextLine();
+            }
+        } while(formatRun == true);
+
+
+//        String.valueOf(phone).replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1)-$2-$3");
+//        String phoneFormat = String.valueOf(phone).replaceFirst("(\\d{3})(\\d+)", "$1-$2");
+
         ArrayList<String> builder = new ArrayList<String>();
-        builder.add(name + " | " + phone);
+        builder.add(name + " | " + phoneFormat);
 
         try {
             Files.write(Paths.get(filepath), builder, StandardOpenOption.APPEND);
@@ -109,12 +133,8 @@ public class ContactsApplication {
             System.out.printf("Error");
         }
         System.out.println(viewContacts(filepath));
+
     }
 
 
-
-
  }
-
-
-
