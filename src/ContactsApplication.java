@@ -78,11 +78,12 @@ public class ContactsApplication {
         String userInput = scan.nextLine();
         List<String> lines = Files.readAllLines(Paths.get(filepath));
         ArrayList<String> builder = new ArrayList<String>();
-        for (String string : lines) {
-            if(! string.matches("(?i)(" + userInput + ").*")){
-                builder.add(string);
+            for (String string : lines) {
+                if (!string.matches("(?i)(" + userInput + ").*")) {
+                    builder.add(string);
+
+                }
             }
-        }
         try {
             Files.write(Paths.get(filepath), builder, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
@@ -93,8 +94,10 @@ public class ContactsApplication {
 
 ///////////Add a Contact
     public static void addContacts(String filepath) throws IOException {
-        System.out.println("Please type full name");
-        String name = scan.nextLine();
+        System.out.println("Please type first name");
+        String firstName = scan.nextLine();
+        System.out.println("Please type last name");
+        String lastName = scan.nextLine();
         System.out.println("Please contacts phone number");
         String phone = scan.nextLine();
         String phoneFormat = null;
@@ -125,7 +128,7 @@ public class ContactsApplication {
 //        String phoneFormat = String.valueOf(phone).replaceFirst("(\\d{3})(\\d+)", "$1-$2");
 
         ArrayList<String> builder = new ArrayList<String>();
-        builder.add(name + " | " + phoneFormat);
+        builder.add(firstName + " " + lastName + " | " + phoneFormat);
 
         try {
             Files.write(Paths.get(filepath), builder, StandardOpenOption.APPEND);
